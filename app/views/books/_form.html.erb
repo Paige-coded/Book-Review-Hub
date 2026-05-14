@@ -1,0 +1,31 @@
+<%= form_with model: @book do |form| %>
+  <% if @book.errors.any? %>
+    <div>
+      <% @book.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :author %>
+    <%= form.text_field :author %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :cover_url, "Cover Image URL" %>
+    <%= form.text_field :cover_url %>
+  </div>
+
+  <%= form.submit %>
+<% end %>
