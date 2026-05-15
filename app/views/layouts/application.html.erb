@@ -1,28 +1,109 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Book Review Hub" %></title>
+    <title>The Fancy Shelf</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Book Review Hub">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <style>
+      body { font-family: 'Raleway', sans-serif; }
+      h1, h2, h3, .fancy { font-family: 'Playfair Display', serif; }
 
-    <%= yield :head %>
+      /* Bookshelf button effect */
+      .shelf-btn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .shelf-btn::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+      .shelf-btn:hover::before {
+        transform: scaleX(1);
+      }
+      .shelf-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      }
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+      /* Book spine hover effect */
+      .book-card {
+        transition: all 0.3s ease;
+        border-left: 5px solid #b8860b;
+      }
+      .book-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        border-left-color: #ffd700;
+      }
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+      /* Gold shimmer on nav title */
+      .gold-text {
+        background: linear-gradient(90deg, #c9a84c, #ffd700, #c9a84c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app %>
+      /* Shelf line decoration */
+      .shelf-line {
+        border-bottom: 6px solid #5c3d1e;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      }
+    </style>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="min-h-screen" style="background-color: #2c1810; background-image: radial-gradient(ellipse at top, #3d2010 0%, #2c1810 70%);">
+
+    <!-- Navbar -->
+    <nav class="px-8 py-5 flex justify-between items-center" style="background: linear-gradient(135deg, #0d0604 0%, #2c1810 50%, #0d0604 100%); border-bottom: 2px solid #b8860b; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">📚</span>
+        <%= link_to root_path, class: "flex flex-col leading-tight" do %>
+          <span class="fancy gold-text text-2xl font-bold tracking-widest">The Fancy Shelf</span>
+          <span class="text-xs tracking-widest uppercase" style="color: #8a6f3d;">A Curated Reading Experience</span>
+        <% end %>
+      </div>
+      <div class="flex gap-4 items-center">
+        <%= link_to "Browse Collection", books_path, class: "shelf-btn text-sm tracking-widest uppercase px-5 py-2 rounded", style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
+        <%= link_to "＋ Add a Book", new_book_path, class: "shelf-btn text-sm tracking-widest uppercase px-5 py-3 rounded font-medium", style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
+      </div>
+    </nav>
+
+    <!-- Decorative shelf line -->
+    <div class="w-full h-2" style="background: linear-gradient(90deg, #5c3d1e, #b8860b, #ffd700, #b8860b, #5c3d1e);"></div>
+
+    <!-- Flash messages -->
+    <div class="max-w-5xl mx-auto mt-6 px-4">
+      <% flash.each do |type, message| %>
+        <div class="px-6 py-4 rounded mb-4 text-sm tracking-wide" style="background: #1e140a; border: 1px solid #b8860b; color: #c9a84c;">
+          ✦ <%= message %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Main content -->
+    <main class="max-w-5xl mx-auto px-4 py-10">
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs tracking-widest uppercase py-8 mt-12" style="border-top: 1px solid #2c1810; color: #5c3d1e;">
+      <span class="gold-text fancy text-sm">The Fancy Shelf</span>
+      <span style="color: #3d2810;"> &nbsp;·&nbsp; </span>
+      <span>© <%= Time.now.year %> &nbsp;·&nbsp; Every book tells a story</span>
+    </footer>
+
   </body>
 </html>

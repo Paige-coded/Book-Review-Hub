@@ -1,11 +1,31 @@
-<h1>Books</h1>
+<div class="mb-12 text-center">
+  <h1 class="fancy text-5xl font-bold mb-3" style="color: #ffd700;">The Collection</h1>
+  <p class="text-sm tracking-widest uppercase" style="color: #8a6f3d;">Discover · Read · Review</p>
+  <div class="w-24 h-px mx-auto mt-4" style="background: linear-gradient(90deg, transparent, #b8860b, transparent);"></div>
+</div>
 
-<%= link_to "Add a Book", new_book_path %>
-
-<% @books.each do |book| %>
-  <div>
-    <h2><%= link_to book.title, book %></h2>
-    <p>by <%= book.author %></p>
+<% if @books.empty? %>
+  <div class="text-center py-20">
+    <p class="fancy text-2xl" style="color: #5c3d1e;">The shelves are empty.</p>
+    <p class="text-sm mt-2" style="color: #3d2810;">Be the first to add a book.</p>
+  </div>
+<% else %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @books.each do |book| %>
+      <%= link_to book, class: "book-card block rounded-lg p-6 no-underline", style: "background: linear-gradient(135deg, #1e140a, #2c1810); border: 1px solid #3d2810;" do %>
+        <div class="flex flex-col h-full">
+          <p class="text-xs tracking-widest uppercase mb-3" style="color: #8a6f3d;">Featured Title</p>
+          <h2 class="fancy text-xl font-bold mb-2 leading-snug" style="color: #ffd700;"><%= book.title %></h2>
+          <p class="text-sm mb-4" style="color: #c9a84c;">by <%= book.author %></p>
+          <% if book.description.present? %>
+            <p class="text-xs leading-relaxed line-clamp-3 flex-grow" style="color: #8a6f3d;"><%= book.description %></p>
+          <% end %>
+          <div class="mt-4 pt-4 flex justify-between items-center" style="border-top: 1px solid #3d2810;">
+            <span class="text-xs tracking-widest uppercase" style="color: #5c3d1e;"><%= pluralize(book.reviews.count, "review") %></span>
+            <span class="text-xs" style="color: #b8860b;">Read more →</span>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
-

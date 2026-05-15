@@ -1,20 +1,90 @@
-<h1><%= @book.title %></h1>
-<p>by <%= @book.author %></p>
-<p><%= @book.description %></p>
+<div class="max-w-4xl mx-auto">
 
-<%= link_to "Edit", edit_book_path(@book) %> |
-<%= link_to "Delete", @book, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-<%= link_to "Back to Books", books_path %>
+  <!-- Book header -->
+  <div class="rounded-lg p-8 mb-8 flex gap-8" style="background: linear-gradient(135deg, #1e140a, #2c1810); border: 1px solid #3d2810;">
 
-<hr>
-<h2>Reviews</h2>
+    <!-- Cover image -->
+    <% if @book.cover_url.present? %>
+      <div class="flex-shrink-0">
+        <img src="<%= @book.cover_url %>" alt="<%= @book.title %>"
+             class="w-36 h-52 object-cover rounded shadow-lg"
+             style="border: 2px solid #b8860b;">
+      </div>
+    <% else %>
+      <div class="flex-shrink-0 w-36 h-52 rounded flex items-center justify-center"
+           style="background: #1a0f0a; border: 2px dashed #3d2810;">
+        <span class="text-4xl">📖</span>
+      </div>
+    <% end %>
 
-<% @book.reviews.each do |review| %>
-  <div>
-    <p><%= review.body %></p>
-    <p>Rating: <%= review.rating %>/5</p>
-    <%= link_to "Delete", book_review_path(@book, review), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+    <!-- Book details -->
+    <div class="flex flex-col justify-between flex-grow">
+      <div>
+        <p class="text-xs tracking-widest uppercase mb-2" style="color: #8a6f3d;">Featured Title</p>
+        <h1 class="fancy text-4xl font-bold mb-2 leading-tight" style="color: #ffd700;"><%= @book.title %></h1>
+        <p class="text-lg mb-4" style="color: #c9a84c;">by <%= @book.author %></p>
+        <div class="w-16 h-px mb-4" style="background: linear-gradient(90deg, #b8860b, transparent);"></div>
+        <% if @book.description.present? %>
+          <p class="text-sm leading-relaxed" style="color: #8a6f3d;"><%= @book.description %></p>
+        <% end %>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-4 mt-6 flex-wrap">
+        <%= link_to "Edit", edit_book_path(@book),
+            class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
+            style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
+        <%= link_to "Delete", @book,
+            data: { turbo_method: :delete, turbo_confirm: "Remove this book from the shelf?" },
+            class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
+            style: "color: #c0392b; border: 1px solid #5c1e1e;" %>
+        <%= link_to "← Collection", books_path,
+            class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
+            style: "color: #8a6f3d; border: 1px solid #3d2810;" %>
+      </div>
+    </div>
   </div>
-<% end %>
 
-<%= link_to "Write a Review", new_book_review_path(@book) %>
+  <!-- Reviews section -->
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h2 class="fancy text-2xl font-bold" style="color: #ffd700;">Reviews</h2>
+      <p class="text-xs tracking-widest uppercase mt-1" style="color: #5c3d1e;">
+        <%= pluralize(@book.reviews.count, "review") %>
+      </p>
+    </div>
+    <%= link_to "✦ Write a Review", new_book_review_path(@book),
+        class: "shelf-btn text-xs tracking-widest uppercase px-5 py-3 rounded",
+        style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
+  </div>
+
+  <% if @book.reviews.empty? %>
+    <div class="text-center py-12 rounded-lg" style="background: #1e140a; border: 1px dashed #3d2810;">
+      <p class="fancy text-xl" style="color: #5c3d1e;">No reviews yet.</p>
+      <p class="text-xs mt-2 tracking-widest uppercase" style="color: #3d2810;">Be the first to share your thoughts.</p>
+    </div>
+  <% else %>
+    <div class="space-y-4">
+      <% @book.reviews.each do |review| %>
+        <div class="rounded-lg p-6" style="background: linear-gradient(135deg, #1e140a, #2c1810); border: 1px solid #3d2810; border-left: 4px solid #b8860b;">
+          <div class="flex justify-between items-start mb-3">
+            <div class="flex gap-1">
+              <% review.rating.times do %>
+                <span style="color: #ffd700;">★</span>
+              <% end %>
+              <% (5 - review.rating).times do %>
+                <span style="color: #3d2810;">★</span>
+              <% end %>
+            </div>
+            <%= link_to "Remove",
+                book_review_path(@book, review),
+                data: { turbo_method: :delete, turbo_confirm: "Delete this review?" },
+                class: "text-xs tracking-widest uppercase shelf-btn",
+                style: "color: #5c3d1e;" %>
+          </div>
+          <p class="text-sm leading-relaxed" style="color: #c9a84c;"><%= review.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
