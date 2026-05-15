@@ -1,0 +1,21 @@
+<%= form_with model: [@book, @review] do |form| %>
+  <% if @review.errors.any? %>
+    <div>
+      <% @review.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :body, "Your Review" %>
+    <%= form.text_area :body, rows: 4 %>
+  </div>
+
+  <div>
+    <%= form.label :rating, "Rating (1-5)" %>
+    <%= form.number_field :rating, min: 1, max: 5 %>
+  </div>
+
+  <%= form.submit "Submit Review" %>
+<% end %>

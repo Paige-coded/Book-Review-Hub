@@ -1,2 +1,6 @@
-<h1>Reviews#new</h1>
-<p>Find me in app/views/reviews/new.html.erb</p>
+<h1>Write a Review</h1>
+<h2>for <%= @book.title %></h2>
+
+<%= render "form" %>
+
+<%= link_to "Back", @book %>
