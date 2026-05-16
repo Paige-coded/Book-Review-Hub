@@ -1,6 +1,17 @@
-<h1>Write a Review</h1>
-<h2>for <%= @book.title %></h2>
+<div class="max-w-xl mx-auto">
+  <div class="mb-8 text-center">
+    <h1 class="fancy text-4xl font-bold mb-2" style="color: #ffd700;">Write a Review</h1>
+    <p class="text-xs tracking-widest uppercase" style="color: #8a6f3d;">for <%= @book.title %></p>
+    <div class="w-24 h-px mx-auto mt-4" style="background: linear-gradient(90deg, transparent, #b8860b, transparent);"></div>
+  </div>
 
-<%= render "form" %>
+  <div class="rounded-lg p-8" style="background: linear-gradient(135deg, #1e140a, #2c1810); border: 1px solid #3d2810;">
+    <%= render "form" %>
+  </div>
 
-<%= link_to "Back", @book %>
+  <div class="text-center mt-6">
+    <%= link_to "← Back to Book", @book,
+        class: "text-xs tracking-widest uppercase shelf-btn px-4 py-2 rounded",
+        style: "color: #8a6f3d;" %>
+  </div>
+</div>

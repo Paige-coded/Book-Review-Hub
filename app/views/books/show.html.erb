@@ -30,22 +30,25 @@
       </div>
 
       <!-- Actions -->
-      <div class="flex gap-4 mt-6 flex-wrap">
-        <%= link_to "Edit", edit_book_path(@book),
-            class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
-            style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
-        <%= link_to "Delete", @book,
-            data: { turbo_method: :delete, turbo_confirm: "Remove this book from the shelf?" },
-            class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
-            style: "color: #c0392b; border: 1px solid #5c1e1e;" %>
-        <%= link_to "← Collection", books_path,
-            class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
-            style: "color: #8a6f3d; border: 1px solid #3d2810;" %>
-      </div>
+<div class="flex gap-4 mt-6 flex-wrap">
+  <% if user_signed_in? %>
+    <%= link_to "Edit", edit_book_path(@book),
+        class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
+        style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
+    <%= button_to "Delete", @book,
+        method: :delete,
+        form: { data: { turbo_confirm: "Remove this book from the shelf?" } },
+        class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
+        style: "color: #c0392b; border: 1px solid #5c1e1e; background: transparent; cursor: pointer;" %>
+  <% end %>
+  <%= link_to "← Collection", books_path,
+      class: "shelf-btn text-xs tracking-widest uppercase px-5 py-2 rounded",
+      style: "color: #8a6f3d; border: 1px solid #3d2810;" %>
+</div>
     </div>
   </div>
 
-  <!-- Reviews section -->
+  # Reviews section 
   <div class="mb-6 flex justify-between items-center">
     <div>
       <h2 class="fancy text-2xl font-bold" style="color: #ffd700;">Reviews</h2>
@@ -77,12 +80,13 @@
               <% end %>
             </div>
             <% if user_signed_in? && review.user == current_user %>
-            <%= link_to "Remove",
-            book_review_path(@book, review),
-            data: { turbo_method: :delete, turbo_confirm: "Delete this review?" },
-            class: "text-xs tracking-widest uppercase shelf-btn",
-            style: "color: #5c3d1e;" %>
-            <% end %>
+            <%= button_to "Remove",
+              book_review_path(@book, review),
+              method: :delete,
+              form: { data: { turbo_confirm: "Delete this review?" } },
+              class: "text-xs tracking-widest uppercase shelf-btn",
+              style: "color: #5c3d1e; background: transparent; border: none; cursor: pointer;" %>
+           <% end %>
           </div>
           <p class="text-sm leading-relaxed" style="color: #c9a84c;"><%= review.body %></p>
         </div>

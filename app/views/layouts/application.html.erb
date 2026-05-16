@@ -80,22 +80,24 @@
       class: "shelf-btn text-sm tracking-widest uppercase px-5 py-2 rounded",
       style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
 
-  <% if user_signed_in? %>
-    <%= link_to "＋ Add a Book", new_book_path,
-        class: "shelf-btn text-sm tracking-widest uppercase px-5 py-3 rounded font-medium",
-        style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
-    <%= link_to "Sign Out", destroy_user_session_path,
-        data: { turbo_method: :delete },
-        class: "shelf-btn text-sm tracking-widest uppercase px-5 py-2 rounded",
-        style: "color: #8a6f3d; border: 1px solid #3d2810;" %>
-  <% else %>
-    <%= link_to "Sign In", new_user_session_path,
-        class: "shelf-btn text-sm tracking-widest uppercase px-5 py-2 rounded",
-        style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
-    <%= link_to "Join", new_user_registration_path,
-        class: "shelf-btn text-sm tracking-widest uppercase px-5 py-3 rounded font-medium",
-        style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
-  <% end %>
+ <% if user_signed_in? %>
+  <%= link_to "＋ Add a Book", new_book_path,
+      class: "shelf-btn text-sm tracking-widest uppercase px-5 py-3 rounded font-medium",
+      style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
+  <%= link_to "Sign Out", destroy_user_session_path,
+      class: "shelf-btn text-sm tracking-widest uppercase px-5 py-2 rounded",
+      style: "color: #8a6f3d; border: 1px solid #3d2810;" %>
+<% else %>
+  <%= link_to "＋ Add a Book", new_user_session_path,
+      class: "shelf-btn text-sm tracking-widest uppercase px-5 py-3 rounded font-medium",
+      style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
+  <%= link_to "Sign In", new_user_session_path,
+      class: "shelf-btn text-sm tracking-widest uppercase px-5 py-2 rounded",
+      style: "color: #c9a84c; border: 1px solid #5c3d1e;" %>
+  <%= link_to "Join", new_user_registration_path,
+      class: "shelf-btn text-sm tracking-widest uppercase px-5 py-3 rounded font-medium",
+      style: "background: linear-gradient(135deg, #8b6914, #c9a84c); color: #0d0604;" %>
+<% end %>
 </div>
     </nav>
 
