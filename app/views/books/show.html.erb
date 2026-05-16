@@ -76,11 +76,13 @@
                 <span style="color: #3d2810;">★</span>
               <% end %>
             </div>
+            <% if user_signed_in? && review.user == current_user %>
             <%= link_to "Remove",
-                book_review_path(@book, review),
-                data: { turbo_method: :delete, turbo_confirm: "Delete this review?" },
-                class: "text-xs tracking-widest uppercase shelf-btn",
-                style: "color: #5c3d1e;" %>
+            book_review_path(@book, review),
+            data: { turbo_method: :delete, turbo_confirm: "Delete this review?" },
+            class: "text-xs tracking-widest uppercase shelf-btn",
+            style: "color: #5c3d1e;" %>
+            <% end %>
           </div>
           <p class="text-sm leading-relaxed" style="color: #c9a84c;"><%= review.body %></p>
         </div>

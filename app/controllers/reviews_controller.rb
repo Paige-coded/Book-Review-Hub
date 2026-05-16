@@ -7,19 +7,24 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = @book.reviews.new(review_params)
-    if @review.save
-      redirect_to @book, notice: "Review added!"
-    else
-      render :new, status: :unprocessable_entity
-    end
+  @review = @book.reviews.new(review_params)
+  @review.user = current_user
+  if @review.save
+    redirect_to @book, notice: "Review added!"
+  else
+    render :new, status: :unprocessable_entity
   end
+end
 
   def destroy
-    @review = @book.reviews.find(params[:id])
+  @review = @book.reviews.find(params[:id])
+  if @review.user == current_user
     @review.destroy
     redirect_to @book, notice: "Review deleted."
+  else
+    redirect_to @book, alert: "You can only delete your own reviews."
   end
+end
 
   private
 
